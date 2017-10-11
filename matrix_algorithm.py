@@ -17,20 +17,23 @@ def print_index(index):
 
 
 def print_buffer(buf, x=-1, y=-1):
-    print_index(lambda i: i + len(buf))
+    # top row
+    print_index(lambda i: '1' if i != y - len(buf) else '0')
 
     for index, line in enumerate(buf):
         string = ''
         for row in line:
             string += '| {} '.format(row)
 
+        # side row
         print(
-            get_str('0' if index != x else '1'),
-            string + '|' + get_str(index) + '\n',
+            get_str(index),
+            string + '|' + get_str('0' if index != x else '1') + '\n',
             '   ',  '_' * len(buf[0]) * 4, sep=''
         )
 
-    print_index(lambda i: '0' if i != y - x - 1 else '1')
+    # bottom row
+    print_index(lambda i: i + len(buf))
 
 
 if len(sys.argv) < 3:
@@ -41,6 +44,8 @@ if len(sys.argv) < 3:
 x = int(sys.argv[1])
 y = int(sys.argv[2])
 
+# x - diode backward
+# o - diode forward
 buf = [['x' for _ in range(y)] for _ in range(x)]
 
 print_buffer(buf)
